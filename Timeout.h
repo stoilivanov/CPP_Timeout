@@ -3,6 +3,7 @@
 #include <ctime>          // std::time_t, std::tm, std::localtime, std::mktime
 #include <vector>
 #include <thread>
+#include <functional>
 
 namespace sivanov {
 
@@ -14,6 +15,7 @@ namespace sivanov {
 	 */
 	class Timeout
 	{
+		bool stop_thread = false;
 		std::thread timerThread;
 		std::vector<std::pair<std::time_t, std::function<void()>>> lambdas;
 
@@ -23,7 +25,7 @@ namespace sivanov {
 		 */
 		void threadCore()
 		{
-			while (1) {
+			while (!stop_thread) {
 				std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
 				for (int i = 0; i < lambdas.size(); i++) {
@@ -55,6 +57,7 @@ namespace sivanov {
 		 */
 		~Timeout()
 		{
+			stop_thread = true;
 			timerThread.join();
 		};
 
