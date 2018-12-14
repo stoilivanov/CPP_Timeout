@@ -15,17 +15,17 @@ namespace sivanov {
 	 */
 	class Timeout
 	{
-		bool stop_thread = false;
+		bool run_thread = true;
 		std::thread timerThread;
 		std::vector<std::pair<std::time_t, std::function<void()>>> lambdas;
 
 		/**
-		 * This function spins during the life-cycle of the class in order to 
+		 * This function spins during the life-cycle of the class in order to
 		 * execute lambdas whose timers have expired
 		 */
 		void threadCore()
 		{
-			while (!stop_thread) {
+			while (run_thread) {
 				std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
 				for (int i = 0; i < lambdas.size(); i++) {
@@ -57,12 +57,24 @@ namespace sivanov {
 		 */
 		~Timeout()
 		{
-			stop_thread = true;
-			timerThread.join();
+			run_thread = false;
+			if (timerThread.joinable())
+				timerThread.join();
 		};
 
 		/**
-		 * Overload the () operator for easier use of the class 
+		 * Run from main thread to make it wait for all of the timeouts to finish
+		 * before potentionally ending the program
+		 */
+		void wait()
+		{
+			while (lambdas.size() > 0) {
+				// hold destruction until we have executed all of our lambdas
+			}
+		}
+
+		/**
+		 * Overload the () operator for easier use of the class
 		 */
 		void operator()(std::function<void()> lambda, int seconds)
 		{
