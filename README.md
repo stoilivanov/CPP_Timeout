@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/stoilivanov/CPP_Timeout.svg?branch=master)](https://travis-ci.org/stoilivanov/CPP_Timeout)
+
 # CPP_Timeout
 executes anonymous functions with a delay
 
