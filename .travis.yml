@@ -9,6 +9,8 @@ addons:
     packages:
       - g++-8 
 
+env: COMPILER=g++-8
+
 script:
   - cmake .
   - cmake --build .
