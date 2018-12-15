@@ -9,7 +9,8 @@ addons:
     packages:
       - g++-8 
 
-env: COMPILER=g++-8
+env: C_COMPILER=gcc-8
+env: CXX_COMPILER=g++-8
 
 script:
   - cmake .
