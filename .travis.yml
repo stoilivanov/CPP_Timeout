@@ -9,3 +9,5 @@ addons:
     packages:
       - g++-8 
 
+scripts:
+  - cmake --build .
