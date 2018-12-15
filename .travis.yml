@@ -1,17 +1,21 @@
 dist: trusty
-sudo: false
+sudo: require
 language: cpp
+compiler: gcc
 
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-8 
+      - gcc-8
+      - g++-8
+      - cmake
 
-env: C_COMPILER=gcc-8
-env: CXX_COMPILER=g++-8
-
+script:
+    - sudo ln -s /usr/bin/gcc-8 /usr/local/bin/gcc
+    - sudo ln -s /usr/bin/g++-8 /usr/local/bin/g++
+    
 script:
   - cmake .
   - cmake --build .
