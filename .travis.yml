@@ -10,4 +10,5 @@ addons:
       - g++-8 
 
 scripts:
+  - cmake .
   - cmake --build .
